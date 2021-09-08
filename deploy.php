@@ -7,7 +7,7 @@ require 'recipe/laravel.php';
 set('application', 'training_deploy');
 
 // Project repository
-set('repository', 'git@domain.com:username/repository.git');
+set('repository', 'git@github.com:duckhang2605/training_deploy.git');
 
 // [Optional] Allocate tty for git clone. Default value is false.
 set('git_tty', false); 
