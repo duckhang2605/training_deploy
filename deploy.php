@@ -42,19 +42,17 @@ add('writable_dirs', [
 
 // Hosts
 
-host('13.212.7.71')
-	->user('vmo')
+host('52.221.180.207')
+	->user('deploy')
 	->stage('development')
 	->set('deploy_path', '~/{{application}}')
+	->set('writable_mode', 'chmod')
 	->forwardAgent(false);    
 
 // Tasks
-
 task('build-assets', function () {
-    run('cd {{release_path}} && yarn install');
+    run('cd {{release_path}} && yarn');
     run('cd {{release_path}} && yarn run dev');
-    run('cd {{release_path}} && composer install');
-    run('cd {{release_path}} && composer update');
 });
 
 task('clear-config', [
@@ -109,10 +107,6 @@ before('deploy:symlink', 'clear-config');
 // Reload PHP-FPM
 task('reload:php-fpm', function () {
     $stage = input()->hasArgument('stage') ? input()->getArgument('stage') : null;
-
-    run('echo "Aa@123456" | sudo -S service php7.4-fpm restart -y');
-    // run('echo "Aa@123456" | sudo -S service supervisor start -y');
-    // run('echo "Aa@123456" | sudo -S sudo supervisorctl reload');
 
     switch ($stage) {
         case 'production':
